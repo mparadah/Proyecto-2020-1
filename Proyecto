@@ -1,0 +1,419 @@
+#############################################################
+#            FUNCIONES QUE MODIFICAN LOS
+#                 DATOS DEL PROGRAMA
+#############################################################
+
+def create_box(number_box):
+    """
+    crea una caja en forma de lista donde se guarda 
+    en el indice 0 el numero de la caja
+    en el indice 1 el peso
+    en el indice 2 el largo
+    en el indice 3 el ancho
+    en el indice 4 el alto
+    en el indice 5 el volumen
+
+    :param int number_box: Numero de la caja 
+    :return: list[] 
+    """
+    box =[]#Crea una caja VACIA
+    print("______________________________________________________")
+    print(f"                 Caja {number_box}")
+    print("______________________________________________________")
+    box.append(number_box)
+    box.append(int(input("Ingrese el peso(kg): ")))
+    box.append(int(input("Ingrese el largo(cm): ")))
+    box.append(int(input("Ingrese el ancho(cm): ")))
+    box.append(int(input("Ingrese el alto(cm): ")))
+    box.append( box[2]*box[3]*box[4]) #Volumen de la caja
+
+    return box
+
+def set_box(list_box,num_box,index,new_value):
+    """
+    modifica el parametro de una caja
+
+    :param list[] list_box: Lista de cajas
+    :param int num_box: numero que identifica una caja
+    :param int index: indice del parametro de la caja a modificar
+    :param int new_value: Nuevo valor del parametro
+    """    
+    for num in range(len(list_box)):
+        if list_box[num][0] == num_box :   
+            list_box[num][index]= new_value
+            list_box[num][5]= list_box[num][2]*list_box[num][3]*list_box[num][4]  #Actualiza el volumen  
+
+def add_box(list_box):
+    '''
+    añade una caja nueva a la lista de cajas
+    :param list[] list_box: lista de cajas
+    :return: list[] 
+    '''
+    list_box.append(create_box(len(list_box)+1))
+    return list_box
+
+def box_in_list(list_box,num_box):
+    """
+    valida si el numero de la caja esta dentro de la lista
+
+    :param list[] list_box: Lista de cajas
+    :param int num_box: Numero de caja
+    :return: True|False
+    """
+    if num_box <= len(list_box):
+        return True
+    else:
+        return False
+
+def create_list_box(number_box):
+    """
+    crea una lista de cajas
+
+    :param int number_box: numero de cajas
+    :return: list[]
+    """
+    list_box = []
+    for x in range(number_box):  
+        list_box.append(create_box(x+1)) #Guarda en una lista las cajas ingresadas por el usuario, x+1 para que el numero de caja no empiece en 0
+    return list_box
+
+def sort_list_box_less(list_box,filter): 
+    """
+    organiza una lista de cajas de acuerdo con un filtro de menor a mayor
+
+    :param list[] list_box: lista de cajas
+    :param int filter: filtro por el que se organiza(1=peso, 2=altura, 3=largo, 4=ancho, 5=volumen, 0=numero de caja)
+    """    
+    for step in range(1,len(list_box)): 
+        for position in range(len(list_box)-step): 
+            if list_box[position][filter] > list_box[position+1][filter]:
+                temp = list_box[position]
+                list_box[position] = list_box[position+1]
+                list_box[position+1]= temp
+
+def sort_list_box_mayor(list_box,filter): 
+    """
+    organiza una lista de cajas de acuerdo con un filtro de mayor a menor
+
+    :param list[] list_box: lista de cajas
+    :param int filter: filtro por el que se organiza(1=peso, 2=altura, 3=largo, 4=ancho, 5=volumen, 0=numero de caja)
+    """  
+    for step in range(1,len(list_box)):
+        for position in range(len(list_box)-step): 
+            if list_box[position][filter] < list_box[position+1][filter]:
+                temp = list_box[position]
+                list_box[position] = list_box[position+1]
+                list_box[position+1]= temp
+    
+
+def menu(no_exit, list_box):
+    '''
+    tiene la logica del funcionamiento del menu principal
+    :param boolean no_exit: parametro que indica si sale del menu o no
+    :param list[] list_box: lista de cajas
+    '''
+    filter = 0
+    while no_exit:
+        print_menu()
+        option = input("Ingrese la opcion deseada: ")
+        
+        if option == '1':#imprime la lista de cajas
+            print_list_box(list_box)
+
+        elif option == '2':#ordenar por filtro
+            while no_exit:
+                print_menu_filter()
+                option = input("Ingrese la opcion deseada: ")
+                filter = int(option)
+            
+                if option == '1':#ordenar por peso
+                    while no_exit:
+                        print_menu_mayor_minor()
+                        option = input("Ingrese la opcion deseada: ")
+                        if option == "1":
+                            sort_list_box_less(list_box,1)
+                            no_exit = False
+
+                        elif option == '2':
+                            sort_list_box_mayor(list_box,1)
+                            no_exit = False
+
+                        else: 
+                            print("¡OPCION INVALIDA!")
+
+                elif option == '2':#ordenar por largo
+                    while no_exit:
+                        print_menu_mayor_minor()
+                        option = input("Ingrese la opcion deseada: ")
+                        if option == "1":
+                            sort_list_box_less(list_box,2)
+                            no_exit = False
+
+                        elif option == '2':
+                            sort_list_box_mayor(list_box,2)
+                            no_exit = False
+
+                        else: 
+                            print("¡OPCION INVALIDA!")
+
+                elif option == '3':#ordenar por ancho
+                    while no_exit:
+                        print_menu_mayor_minor()
+                        option = input("Ingrese la opcion deseada: ")
+                        if option == "1":
+                            sort_list_box_less(list_box,3)
+                            no_exit = False
+
+                        elif option == '2':
+                            sort_list_box_mayor(list_box,3)
+                            no_exit = False
+
+                        else: 
+                            print("¡OPCION INVALIDA!")
+
+                elif option == '4':#ordenar por alto
+                    while no_exit:
+                        print_menu_mayor_minor()
+                        option = input("Ingrese la opcion deseada: ")
+                        if option == "1":
+                            sort_list_box_less(list_box,4)
+                            no_exit = False
+
+                        elif option == '2':
+                            sort_list_box_mayor(list_box,4)
+                            no_exit = False
+
+                        else: 
+                            print("¡OPCION INVALIDA!")                     
+
+                elif option == '5':#ordenar por volumen
+                    while no_exit:
+                        print_menu_mayor_minor()
+                        option = input("Ingrese la opcion deseada: ")
+                        if option == "1":
+                            sort_list_box_less(list_box,5)
+                            no_exit = False
+
+                        elif option == '2':
+                            sort_list_box_mayor(list_box,5)
+                            no_exit = False
+
+                        else: 
+                            print("¡OPCION INVALIDA!")                       
+
+                elif option == '6': #Ordenar por numero de caja 
+                    while no_exit:
+                        print_menu_mayor_minor()
+                        option = input("Ingrese la opcion deseada: ")
+                        if option == "1":
+                            sort_list_box_less(list_box,0)
+                            no_exit = False
+
+                        elif option == '2':
+                            sort_list_box_mayor(list_box,0)
+                            no_exit = False
+
+                        else: 
+                            print("¡OPCION INVALIDA!")   
+
+                else: 
+                    print("¡OPCION INVALIDA!") 
+            no_exit = True
+
+        elif option == '3':#Modificar caja
+            while no_exit:
+                print_select_box(list_box)
+                option = input("Seleccione el numero de caja a modificar: ")
+
+                if box_in_list(list_box,int(option)):  
+                    num_parameters = 4#peso,alto,largo,ancho
+                    while no_exit:
+                        print_menu_set_parameter(option)     
+                        option2 = int(input("Seleccione el parametro a modificar: "))
+                        if option2 <= num_parameters:       
+                            set_box(list_box,int(option),option2,int(input("Nuevo valor: ")))
+                            no_exit = False
+                        else:
+                            print("¡OPCION INVALIDA!")    
+                else:
+                    print("¡NUMERO DE CAJA INVALIDO!")
+            no_exit = True
+
+        elif option == '4':
+            add_box(list_box)
+
+        elif option == '5':
+            print_box(list_box,filter)   
+            
+        elif option == 'e':
+            break
+        
+        else:
+            print("Entrada no valida")
+
+##############################################################
+#       FUNCIONES DE LA INTERFAZ GRAFICA DE USUARIO
+##############################################################
+
+def print_welcome():
+    """
+    imprime una bienvenida al inicio del programa
+    """
+    print("######################################################")
+    print("              ORGANIZA CAJAS 3000")
+    print("######################################################")
+    print("Este programa organiza cajas de acuerdo a sus parametros.")
+    print()
+    print()
+    print("Este programa ha sido deesarrollado por:")
+    print("        David Pulido")
+    print("        Juan Laverde")
+    print("        Miguel Parada")
+    print()
+    print(" Universidad Nacional de Colombia")
+    print("######################################################")
+  
+def print_menu():
+    """
+    imprime el menu principal
+    """
+    print("######################################################")
+    print("                 MENU PRINCIPAL")
+    print("######################################################")
+    print()
+    print("1. Imprimir lista de cajas")
+    print("2. Organizar lista de cajas")
+    print("3. Modificar caja")
+    print("4. Agregar caja")
+    print("5. Imprimir las cajas graficamente ")
+    print()
+    print("'e' para salir del programa")
+    print()
+    
+def print_menu_filter():
+    """
+    imprime el menu de opciones para organizar de acuerdo a un filtro
+    """
+    print("######################################################")
+    print("              ORGANIZAR LISTA DE CAJAS") 
+    print("######################################################")
+    print()
+    print("1. Ordenar por peso")
+    print("2. Ordenar por largo")
+    print("3. Ordenar por ancho")
+    print("4. Ordenar por alto")
+    print("5. Ordenar por volumen") 
+    print("6. Ordenar por numero de caja")  
+    print()
+
+def print_menu_mayor_minor():
+    """
+    imprime el menu de opciones para organizar
+    """
+    print("######################################################")
+    print("               METODO DE ORGANIZACION")
+    print("######################################################")
+    print()
+    print("1.Ordenar de menor a mayor")
+    print("2.Ordenar de mayor a menor")
+    print()
+   
+
+def print_list_box(list_box):
+    """
+    Imprime una lista de cajas con un formato
+
+    :param lis[] list_box: lista de cajas
+    """
+    print("####################################################################################")
+    print("                                 LISTA DE CAJAS")
+    print("####################################################################################")
+    print("____________________________________________________________________________________")  
+    print()
+    print("|  n. caja   ||  peso kg   ||  largo cm  ||  ancho cm  ||  alto  cm  ||volumen cm^3|")
+    for i in range(len(list_box)):
+        for j in range(len(list_box[i])): 
+            print(f"|{list_box[i][j]:12}",end = '|')
+        print()  
+    print("____________________________________________________________________________________")  
+
+def print_menu_set_parameter(number_box):
+    """
+    imprime el menu de las opciones de los parametros que se pueden modificar en una caja
+    
+    :param int number_box: Numero de la caja
+    """
+    
+    print("######################################################")
+    print("                   CAJA No. "+str(number_box))
+    print("                Parametro a modificar") 
+    print("######################################################")
+    print()
+    print("1. Peso")
+    print("2. Largo")
+    print("3. Ancho")
+    print("4. Alto")
+    print()
+    
+def print_select_box(list_box):
+    """
+    Imprime el menu de seleccion de las caja
+
+    :param list[] list_box: Lista de cajas
+    """
+    print("######################################################")
+    print("                MODIFICAR CAJA")
+    print("######################################################")
+    print()
+    print_list_box(list_box)
+   
+def print_box(box_list,filter):
+
+    '''
+     Imprime cajas en el orden filtrado con un formato grafico
+
+    :param list[] box_list: lista de cajas
+    :param int filter: Filtro por el que se ordenan las cajas 
+    '''
+    print("######################################################")
+    print("                VISTA DE ESTANTE")
+    print("######################################################")
+    
+    magnitud=''
+    if filter == 1:
+        magnitud = 'kg'
+    elif filter>1 and filter<5:
+        magnitud = 'cm'
+    elif filter == 5:
+        magnitud = 'cm^3'
+
+    for box_id in range(len(box_list)):
+        
+        info = str(box_list[box_id][filter])
+        box_len = len(info)
+
+        zero_character = "0" * ((box_len+len(magnitud) )- int(box_list[box_id][0])//10 - 1)        
+        line = "┼"+'─'* (box_len+len(magnitud))+"┼"
+
+        print(line)
+        print("│" + zero_character + str(box_list[box_id][0]) + "│")
+        print("│" + info + magnitud+"│")
+        print(line)
+        print() 
+   
+################################################################
+#                  INICIO DEL PROGRAMA
+################################################################
+
+def main():
+    print_welcome()
+
+    number_box = int(input("Ingrese el numero de cajas a registrar. "))
+    while number_box <=0:
+        print("¡NUMERO DE CAJAS INVALIDO!")
+        number_box = int(input("Ingrese el numero de cajas a registrar. "))
+
+    list_box = create_list_box(number_box)
+    menu(True,list_box)
+   
+main()
