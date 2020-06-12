@@ -12,7 +12,6 @@ def create_box(number_box):
     en el indice 3 el ancho
     en el indice 4 el alto
     en el indice 5 el volumen
-
     :param int number_box: Numero de la caja 
     :return: list[] 
     """
@@ -32,7 +31,6 @@ def create_box(number_box):
 def set_box(list_box,num_box,index,new_value):
     """
     modifica el parametro de una caja
-
     :param list[] list_box: Lista de cajas
     :param int num_box: numero que identifica una caja
     :param int index: indice del parametro de la caja a modificar
@@ -61,13 +59,11 @@ def add_box(list_box):
             break       
         except:
             print("Entrada no valida") 
-
     return list_box
 
 def box_in_list(list_box,num_box):
     """
     valida si el numero de la caja esta dentro de la lista
-
     :param list[] list_box: Lista de cajas
     :param int num_box: Numero de caja
     :return: True|False
@@ -80,7 +76,6 @@ def box_in_list(list_box,num_box):
 def create_list_box(number_box):
     """
     crea una lista de cajas
-
     :param int number_box: numero de cajas
     :return: list[]
     """
@@ -92,7 +87,6 @@ def create_list_box(number_box):
 def sort_list_box_less(list_box,filter): 
     """
     organiza una lista de cajas de acuerdo con un filtro de menor a mayor
-
     :param list[] list_box: lista de cajas
     :param int filter: filtro por el que se organiza(1=peso, 2=altura, 3=largo, 4=ancho, 5=volumen, 0=numero de caja)
     """    
@@ -106,7 +100,6 @@ def sort_list_box_less(list_box,filter):
 def sort_list_box_mayor(list_box,filter): 
     """
     organiza una lista de cajas de acuerdo con un filtro de mayor a menor
-
     :param list[] list_box: lista de cajas
     :param int filter: filtro por el que se organiza(1=peso, 2=altura, 3=largo, 4=ancho, 5=volumen, 0=numero de caja)
     """  
@@ -118,10 +111,9 @@ def sort_list_box_mayor(list_box,filter):
                 list_box[position+1]= temp
     
 
-def menu(no_exit, list_box):
+def menu(list_box):
     '''
     tiene la logica del funcionamiento del menu principal
-    :param boolean no_exit: parametro que indica si sale del menu o no
     :param list[] list_box: lista de cajas
     '''
     filter = 0
@@ -273,9 +265,9 @@ def menu(no_exit, list_box):
 ##############################################################
 
 def print_menu():
-   """
-    imprime el menu principal    """
-   
+    """
+    imprime el menu principal    
+    """   
     print("######################################################")
     print("                 MENU PRINCIPAL")
     print("######################################################")
@@ -324,13 +316,11 @@ def print_menu_mayor_minor():
     print()
     print("1.Ordenar de menor a mayor")
     print("2.Ordenar de mayor a menor")
-    print()
-   
+    print()   
 
 def print_list_box(list_box):
     """
     Imprime una lista de cajas con un formato
-
     :param lis[] list_box: lista de cajas
     """
     print("####################################################################################")
@@ -347,8 +337,7 @@ def print_list_box(list_box):
 
 def print_menu_set_parameter(number_box):
     """
-    imprime el menu de las opciones de los parametros que se pueden modificar en una caja
-    
+    imprime el menu de las opciones de los parametros que se pueden modificar en una caja    
     :param int number_box: Numero de la caja
     """
     
@@ -366,7 +355,6 @@ def print_menu_set_parameter(number_box):
 def print_select_box(list_box):
     """
     Imprime el menu de seleccion de las caja
-
     :param list[] list_box: Lista de cajas
     """
     print("######################################################")
@@ -379,7 +367,6 @@ def print_box(box_list,filter):
 
     '''
      Imprime cajas en el orden filtrado con un formato grafico
-
     :param list[] box_list: lista de cajas
     :param int filter: Filtro por el que se ordenan las cajas 
     '''
@@ -415,6 +402,6 @@ def print_box(box_list,filter):
 
 def main():
     list_box = []    
-    menu(True,list_box)
+    menu(list_box)
    
 main()
