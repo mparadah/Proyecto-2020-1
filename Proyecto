@@ -272,28 +272,10 @@ def menu(no_exit, list_box):
 #       FUNCIONES DE LA INTERFAZ GRAFICA DE USUARIO
 ##############################################################
 
-def print_welcome():
-    """
-    imprime una bienvenida al inicio del programa
-    """
-    print("######################################################")
-    print("              ORGANIZA CAJAS 3000")
-    print("######################################################")
-    print("Este programa organiza cajas de acuerdo a sus parametros.")
-    print()
-    print()
-    print("Este programa ha sido deesarrollado por:")
-    print("        David Pulido")
-    print("        Juan Laverde")
-    print("        Miguel Parada")
-    print()
-    print(" Universidad Nacional de Colombia")
-    print("######################################################")
-  
 def print_menu():
-    """
-    imprime el menu principal
-    """
+   """
+    imprime el menu principal    """
+   
     print("######################################################")
     print("                 MENU PRINCIPAL")
     print("######################################################")
@@ -306,6 +288,15 @@ def print_menu():
     print()
     print("'e' para salir del programa")
     print()
+    print()
+    print()
+    print("       Este programa ha sido deesarrollado por:")
+    print("                  David Pulido")
+    print("                  Juan Laverde")
+    print("                 Miguel Parada")
+    print()
+    print("          Universidad Nacional de Colombia")
+    print("######################################################")
     
 def print_menu_filter():
     """
@@ -423,7 +414,6 @@ def print_box(box_list,filter):
 ################################################################
 
 def main():
-    print_welcome()
     list_box = []    
     menu(True,list_box)
    
