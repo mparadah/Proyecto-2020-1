@@ -3,19 +3,19 @@ import os
 #            FUNCIONES QUE MODIFICAN LOS
 #                 DATOS DEL PROGRAMA
 #############################################################
-def valores(dato): #Esta función controla las excepciones de los valores de la caja
-  datos={1:"peso (Kg):", 2:"largo(Cm):", 3:"alto(Cm):", 4:"ancho(Cm):"}
-  nuev_dato=datos[dato]
-  valor="no hay valor"
-  while valor=="no hay valor":
+def values(data): #Esta función controla las excepciones de los valores de la caja
+  information={1:"peso (Kg):", 2:"largo(Cm):", 3:"alto(Cm):", 4:"ancho(Cm):"}
+  new_data=information[data]
+  value="not value"
+  while value=="not value":
     try:
-       valor=int(input("Ingrese el valor del "+nuev_dato))
-       if valor<0:
-         valor="no hay valor"
+       value=int(input("Ingrese el valor del "+new_data))
+       if value<0:
+         value="not value"
          print("por favor escriba un valor numérico mayor a 0")
     except:
       print("por favor escriba un valor numérico mayor a 0")   
-  return valor 
+  return value 
 def create_box(number_box):
     #modificacion
     """
@@ -35,10 +35,10 @@ def create_box(number_box):
     print(f"                 Caja {number_box}")
     print("______________________________________________________")
     box.append(number_box)
-    box.append(valores(1))
-    box.append(valores(2))
-    box.append(valores(4))
-    box.append(valores(3))
+    box.append(values(1))
+    box.append(values(2))
+    box.append(values(4))
+    box.append(values(3))
     box.append( box[2]*box[3]*box[4]) #Volumen de la caja
 
     return box
