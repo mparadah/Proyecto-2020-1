@@ -3,8 +3,21 @@ import os
 #            FUNCIONES QUE MODIFICAN LOS
 #                 DATOS DEL PROGRAMA
 #############################################################
-
+def values(data): #Esta función controla las excepciones de los valores de la caja
+  information={1:"peso (Kg):", 2:"largo(Cm):", 3:"alto(Cm):", 4:"ancho(Cm):"}
+  new_data=information[data]
+  value="not value"
+  while value=="not value":
+    try:
+       value=int(input("Ingrese el valor del "+new_data))
+       if value<0:
+         value="not value"
+         print("por favor escriba un valor numérico mayor a 0")
+    except:
+      print("por favor escriba un valor numérico mayor a 0")   
+  return value 
 def create_box(number_box):
+    #modificacion
     """
     crea una caja en forma de lista donde se guarda 
     en el indice 0 el numero de la caja
@@ -13,6 +26,7 @@ def create_box(number_box):
     en el indice 3 el ancho
     en el indice 4 el alto
     en el indice 5 el volumen
+
     :param int number_box: Numero de la caja 
     :return: list[] 
     """
@@ -21,10 +35,10 @@ def create_box(number_box):
     print(f"                 Caja {number_box}")
     print("______________________________________________________")
     box.append(number_box)
-    box.append(int(input("Ingrese el peso(kg): ")))
-    box.append(int(input("Ingrese el largo(cm): ")))
-    box.append(int(input("Ingrese el ancho(cm): ")))
-    box.append(int(input("Ingrese el alto(cm): ")))
+    box.append(values(1))
+    box.append(values(2))
+    box.append(values(4))
+    box.append(values(3))
     box.append( box[2]*box[3]*box[4]) #Volumen de la caja
 
     return box
