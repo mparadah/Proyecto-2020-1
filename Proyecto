@@ -1,3 +1,4 @@
+import os
 #############################################################
 #            FUNCIONES QUE MODIFICAN LOS
 #                 DATOS DEL PROGRAMA
@@ -122,16 +123,19 @@ def menu(list_box):
         option = input("Ingrese la opcion deseada: ")
         
         if option == '1':#imprime la lista de cajas
+            clear_screen()
             print_list_box(list_box)
 
         elif option == '2':#ordenar por filtro
+            clear_screen()
             while True:
                 print_menu_filter()
                 option = input("Ingrese la opcion deseada: ")
                 filter = int(option)
             
                 if option == '1':#ordenar por peso
-                    while True:
+                    clear_screen()
+                    while True:                        
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
                         if option == "1":
@@ -143,10 +147,11 @@ def menu(list_box):
                             break
 
                         else: 
-                            print("¡OPCION INVALIDA!")
+                            print("¡OPCION INVALIDA!")                  
                     break            
 
                 elif option == '2':#ordenar por largo
+                    clear_screen()
                     while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
@@ -163,6 +168,7 @@ def menu(list_box):
                     break
 
                 elif option == '3':#ordenar por ancho
+                    clear_screen()
                     while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
@@ -179,6 +185,7 @@ def menu(list_box):
                     break
 
                 elif option == '4':#ordenar por alto
+                    clear_screen()
                     while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
@@ -192,9 +199,11 @@ def menu(list_box):
 
                         else: 
                             print("¡OPCION INVALIDA!")                     
+                    
                     break
 
                 elif option == '5':#ordenar por volumen
+                    clear_screen()
                     while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
@@ -210,7 +219,8 @@ def menu(list_box):
                             print("¡OPCION INVALIDA!")                       
                     break
 
-                elif option == '6': #Ordenar por numero de caja 
+                elif option == '6': #Ordenar por numero de caja
+                    clear_screen() 
                     while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
@@ -229,6 +239,7 @@ def menu(list_box):
                     print("¡OPCION INVALIDA!")            
 
         elif option == '3':#Modificar caja
+            clear_screen()
             while True:
                 print_select_box(list_box)
                 option = input("Seleccione el numero de caja a modificar: ")
@@ -249,9 +260,12 @@ def menu(list_box):
                 
 
         elif option == '4':
+            clear_screen()
+            print_add_box()
             add_box(list_box)
 
         elif option == '5':
+            clear_screen()
             print_box(list_box,filter)   
             
         elif option == 'e':
@@ -263,6 +277,12 @@ def menu(list_box):
 ##############################################################
 #       FUNCIONES DE LA INTERFAZ GRAFICA DE USUARIO
 ##############################################################
+
+def clear_screen(): #Definimos la función estableciendo el nombre que queramos
+    if os.name == "posix":
+        os.system ("clear")
+    elif os.name == "ce" or os.name == "nt" or os.name == "dos":
+        os.system ("cls")
 
 def print_menu():
     """
@@ -398,7 +418,12 @@ def print_box(box_list,filter):
         print("│" + info + magnitud+"│")
         print(line)
         print() 
-   
+
+def print_add_box():
+    print("######################################################")
+    print("                   AGREGAR CAJAS") 
+    print("######################################################")
+
 ################################################################
 #                  INICIO DEL PROGRAMA
 ################################################################
