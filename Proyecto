@@ -4,7 +4,6 @@
 #############################################################
 
 def create_box(number_box):
-    #modificacion
     """
     crea una caja en forma de lista donde se guarda 
     en el indice 0 el numero de la caja
@@ -46,11 +45,23 @@ def set_box(list_box,num_box,index,new_value):
 
 def add_box(list_box):
     '''
-    añade una caja nueva a la lista de cajas
+    añade una cantidad de cajas nueva a la lista de cajas
     :param list[] list_box: lista de cajas
     :return: list[] 
     '''
-    list_box.append(create_box(len(list_box)+1))
+    while True:
+        try:
+            number_box = int(input("Ingrese el numero de cajas a registrar. "))
+            while number_box <=0:
+                print("¡NUMERO DE CAJAS INVALIDO!")
+                number_box = int(input("Ingrese el numero de cajas a registrar. "))
+
+            for num in range(len(list_box),len(list_box)+number_box):   
+                list_box.append(create_box(num+1)) 
+            break       
+        except:
+            print("Entrada no valida") 
+
     return list_box
 
 def box_in_list(list_box,num_box):
@@ -104,7 +115,6 @@ def sort_list_box_mayor(list_box,filter):
             if list_box[position][filter] < list_box[position+1][filter]:
                 temp = list_box[position]
                 list_box[position] = list_box[position+1]
-                
                 list_box[position+1]= temp
     
 
@@ -115,7 +125,7 @@ def menu(no_exit, list_box):
     :param list[] list_box: lista de cajas
     '''
     filter = 0
-    while no_exit:
+    while True:
         print_menu()
         option = input("Ingrese la opcion deseada: ")
         
@@ -123,123 +133,128 @@ def menu(no_exit, list_box):
             print_list_box(list_box)
 
         elif option == '2':#ordenar por filtro
-            while no_exit:
+            while True:
                 print_menu_filter()
                 option = input("Ingrese la opcion deseada: ")
                 filter = int(option)
             
                 if option == '1':#ordenar por peso
-                    while no_exit:
+                    while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
                         if option == "1":
                             sort_list_box_less(list_box,1)
-                            no_exit = False
+                            break
 
                         elif option == '2':
                             sort_list_box_mayor(list_box,1)
-                            no_exit = False
+                            break
 
                         else: 
                             print("¡OPCION INVALIDA!")
+                    break            
 
                 elif option == '2':#ordenar por largo
-                    while no_exit:
+                    while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
                         if option == "1":
                             sort_list_box_less(list_box,2)
-                            no_exit = False
+                            break
 
                         elif option == '2':
                             sort_list_box_mayor(list_box,2)
-                            no_exit = False
+                            break
 
                         else: 
                             print("¡OPCION INVALIDA!")
+                    break
 
                 elif option == '3':#ordenar por ancho
-                    while no_exit:
+                    while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
                         if option == "1":
                             sort_list_box_less(list_box,3)
-                            no_exit = False
+                            break
 
                         elif option == '2':
                             sort_list_box_mayor(list_box,3)
-                            no_exit = False
+                            break
 
                         else: 
                             print("¡OPCION INVALIDA!")
+                    break
 
                 elif option == '4':#ordenar por alto
-                    while no_exit:
+                    while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
                         if option == "1":
                             sort_list_box_less(list_box,4)
-                            no_exit = False
+                            break
 
                         elif option == '2':
                             sort_list_box_mayor(list_box,4)
-                            no_exit = False
+                            break
 
                         else: 
                             print("¡OPCION INVALIDA!")                     
+                    break
 
                 elif option == '5':#ordenar por volumen
-                    while no_exit:
+                    while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
                         if option == "1":
                             sort_list_box_less(list_box,5)
-                            no_exit = False
+                            break
 
                         elif option == '2':
                             sort_list_box_mayor(list_box,5)
-                            no_exit = False
+                            break
 
                         else: 
                             print("¡OPCION INVALIDA!")                       
+                    break
 
                 elif option == '6': #Ordenar por numero de caja 
-                    while no_exit:
+                    while True:
                         print_menu_mayor_minor()
                         option = input("Ingrese la opcion deseada: ")
                         if option == "1":
                             sort_list_box_less(list_box,0)
-                            no_exit = False
+                            break
 
                         elif option == '2':
                             sort_list_box_mayor(list_box,0)
-                            no_exit = False
+                            break
 
                         else: 
                             print("¡OPCION INVALIDA!")   
-
+                    break
                 else: 
-                    print("¡OPCION INVALIDA!") 
-            no_exit = True
+                    print("¡OPCION INVALIDA!")            
 
         elif option == '3':#Modificar caja
-            while no_exit:
+            while True:
                 print_select_box(list_box)
                 option = input("Seleccione el numero de caja a modificar: ")
 
                 if box_in_list(list_box,int(option)):  
                     num_parameters = 4#peso,alto,largo,ancho
-                    while no_exit:
+                    while True:
                         print_menu_set_parameter(option)     
                         option2 = int(input("Seleccione el parametro a modificar: "))
                         if option2 <= num_parameters:       
                             set_box(list_box,int(option),option2,int(input("Nuevo valor: ")))
-                            no_exit = False
+                            break
                         else:
-                            print("¡OPCION INVALIDA!")    
+                            print("¡OPCION INVALIDA!")
+                    break    
                 else:
                     print("¡NUMERO DE CAJA INVALIDO!")
-            no_exit = True
+                
 
         elif option == '4':
             add_box(list_box)
@@ -286,7 +301,7 @@ def print_menu():
     print("1. Imprimir lista de cajas")
     print("2. Organizar lista de cajas")
     print("3. Modificar caja")
-    print("4. Agregar caja")
+    print("4. Agregar cajas")
     print("5. Imprimir las cajas graficamente ")
     print()
     print("'e' para salir del programa")
@@ -409,13 +424,7 @@ def print_box(box_list,filter):
 
 def main():
     print_welcome()
-
-    number_box = int(input("Ingrese el numero de cajas a registrar. "))
-    while number_box <=0:
-        print("¡NUMERO DE CAJAS INVALIDO!")
-        number_box = int(input("Ingrese el numero de cajas a registrar. "))
-
-    list_box = create_list_box(number_box)
+    list_box = []    
     menu(True,list_box)
    
 main()
