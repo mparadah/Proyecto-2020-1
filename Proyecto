@@ -4,7 +4,6 @@
 #############################################################
 
 def create_box(number_box):
-    #modificacion
     """
     crea una caja en forma de lista donde se guarda 
     en el indice 0 el numero de la caja
@@ -46,11 +45,23 @@ def set_box(list_box,num_box,index,new_value):
 
 def add_box(list_box):
     '''
-    añade una caja nueva a la lista de cajas
+    añade una cantidad de cajas nueva a la lista de cajas
     :param list[] list_box: lista de cajas
     :return: list[] 
     '''
-    list_box.append(create_box(len(list_box)+1))
+    while True:
+        try:
+            number_box = int(input("Ingrese el numero de cajas a registrar. "))
+            while number_box <=0:
+                print("¡NUMERO DE CAJAS INVALIDO!")
+                number_box = int(input("Ingrese el numero de cajas a registrar. "))
+
+            for num in range(len(list_box),len(list_box)+number_box):   
+                list_box.append(create_box(num+1)) 
+            break       
+        except:
+            print("Entrada no valida") 
+
     return list_box
 
 def box_in_list(list_box,num_box):
@@ -104,7 +115,6 @@ def sort_list_box_mayor(list_box,filter):
             if list_box[position][filter] < list_box[position+1][filter]:
                 temp = list_box[position]
                 list_box[position] = list_box[position+1]
-                
                 list_box[position+1]= temp
     
 
@@ -286,7 +296,7 @@ def print_menu():
     print("1. Imprimir lista de cajas")
     print("2. Organizar lista de cajas")
     print("3. Modificar caja")
-    print("4. Agregar caja")
+    print("4. Agregar cajas")
     print("5. Imprimir las cajas graficamente ")
     print()
     print("'e' para salir del programa")
@@ -409,13 +419,7 @@ def print_box(box_list,filter):
 
 def main():
     print_welcome()
-
-    number_box = int(input("Ingrese el numero de cajas a registrar. "))
-    while number_box <=0:
-        print("¡NUMERO DE CAJAS INVALIDO!")
-        number_box = int(input("Ingrese el numero de cajas a registrar. "))
-
-    list_box = create_list_box(number_box)
+    list_box = []    
     menu(True,list_box)
    
 main()
