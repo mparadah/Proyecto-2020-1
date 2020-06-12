@@ -269,7 +269,10 @@ def print_menu():
     imprime el menu principal    
     """   
     print("######################################################")
-    print("                 MENU PRINCIPAL")
+    print("                      SORT BOX")
+    print("                 Organizador de cajas")
+    print()
+    print("                    MENU PRINCIPAL")
     print("######################################################")
     print()
     print("1. Imprimir lista de cajas")
