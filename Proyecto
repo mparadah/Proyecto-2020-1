@@ -50,7 +50,7 @@ def set_box(list_box,num_box,index,new_value):
     :param int num_box: numero que identifica una caja
     :param int index: indice del parametro de la caja a modificar
     :param int new_value: Nuevo valor del parametro
-    """    
+    """ 
     for num in range(len(list_box)):
         if list_box[num][0] == num_box :   
             list_box[num][index]= new_value
@@ -144,8 +144,13 @@ def menu(list_box):
             clear_screen()
             while True:
                 print_menu_filter()
-                option = input("Ingrese la opcion deseada: ")
-                filter = int(option)
+                while True:
+                    option = input("Ingrese la opcion deseada: ")
+                    try:
+                         filter = int(option)
+                         break
+                    except:
+                        print("OPCION INVALIDA")                    
             
                 if option == '1':#ordenar por peso
                     clear_screen()
@@ -162,7 +167,7 @@ def menu(list_box):
 
                         else: 
                             print("¡OPCION INVALIDA!")                  
-                    break            
+                                       
 
                 elif option == '2':#ordenar por largo
                     clear_screen()
@@ -179,7 +184,6 @@ def menu(list_box):
 
                         else: 
                             print("¡OPCION INVALIDA!")
-                    break
 
                 elif option == '3':#ordenar por ancho
                     clear_screen()
@@ -196,7 +200,6 @@ def menu(list_box):
 
                         else: 
                             print("¡OPCION INVALIDA!")
-                    break
 
                 elif option == '4':#ordenar por alto
                     clear_screen()
@@ -213,8 +216,7 @@ def menu(list_box):
 
                         else: 
                             print("¡OPCION INVALIDA!")                     
-                    
-                    break
+           
 
                 elif option == '5':#ordenar por volumen
                     clear_screen()
@@ -231,7 +233,6 @@ def menu(list_box):
 
                         else: 
                             print("¡OPCION INVALIDA!")                       
-                    break
 
                 elif option == '6': #Ordenar por numero de caja
                     clear_screen() 
@@ -247,8 +248,8 @@ def menu(list_box):
                             break
 
                         else: 
-                            print("¡OPCION INVALIDA!")   
-                    break
+                            print("¡OPCION INVALIDA!")  
+     
                 else: 
                     print("¡OPCION INVALIDA!")            
 
@@ -256,19 +257,37 @@ def menu(list_box):
             clear_screen()
             while True:
                 print_select_box(list_box)
-                option = input("Seleccione el numero de caja a modificar: ")
-
+                while True:
+                    option = input("Seleccione el numero de caja a modificar: ")
+                    try:
+                        option_int = int(option)
+                        break
+                    except:
+                        print("¡NUMERO INVALIDO!")
                 if box_in_list(list_box,int(option)):  
                     num_parameters = 4#peso,alto,largo,ancho
                     while True:
-                        print_menu_set_parameter(option)     
-                        option2 = int(input("Seleccione el parametro a modificar: "))
-                        if option2 <= num_parameters:       
-                            set_box(list_box,int(option),option2,int(input("Nuevo valor: ")))
+                        print_menu_set_parameter(option)
+                        while True:
+                            option2 = input("Seleccione el parametro a modificar: ")
+                            try:
+                                option2 = int(option2)
+                                break
+                            except:
+                                print("¡PARAMETRO INCORRECTO!")
+                        option2 = int(option2)
+                        while True:
+                            NEW = input("Nuevo valor (Recuerde que solo puede utilizar numeros enteros): ")
+                            try:
+                                NEW = int(NEW)
+                                break
+                            except:
+                                print("¡NUMERO EQUIVOCADO!")
+                        if option2 <= num_parameters and int(option) in list_box:       
+                            set_box(list_box,int(option),option2,int(NEW))
                             break
                         else:
-                            print("¡OPCION INVALIDA!")
-                    break    
+                            print("¡OPCION INVALIDA!")    
                 else:
                     print("¡NUMERO DE CAJA INVALIDO!")
                 
@@ -287,11 +306,10 @@ def menu(list_box):
         
         else:
             print("Entrada no valida")
-
+            
 ##############################################################
 #       FUNCIONES DE LA INTERFAZ GRAFICA DE USUARIO
 ##############################################################
-
 def clear_screen(): #Definimos la función estableciendo el nombre que queramos
     if os.name == "posix":
         os.system ("clear")
