@@ -4,6 +4,41 @@ import os
 #                 DATOS DEL PROGRAMA
 #############################################################
 
+def open_files():
+	"""
+	return dict dic_box: diccionario con los datos de un .CSV
+	KEY="numero de la caja" VALUE="lista con los datos de la caja"
+	
+	abre el archivo .CSV que contiene la información de las cajas,
+	crea un diccionario con esta información,
+	retorna dicho diccionario.
+	"""
+	path = "box_data.csv"
+	temp_list = [line.strip().split(",") for line in open(path)]
+	dic_box = {}
+	IND = 1
+	for DATA in temp_list:
+		dic_box[IND] = DATA
+		IND += 1
+	return dic_box
+	
+def dict_to_list_box(dic_box):
+	"""
+	param dict dic_box: Diccionario con los valores de cada caja 
+	KEY="numero de la caja" VALUE="lista con los datos de la caja"
+	return list list_box: lista que contiene los valores de las cajas
+	
+	recibe un diccionario con los datos de las cajas,
+	pone los datos en una lista,
+	retorna dicha lista.
+	"""
+	dict_box = dic_box[:]
+	list_box = []
+	for DATA in dic_box.values():
+		temp_list = [DATA]
+		list_box.append(temp_list)
+	return list_box
+
 def values(data): #Esta función controla las excepciones de los valores de la caja
   information={1:"peso (Kg):", 2:"largo(Cm):", 3:"alto(Cm):", 4:"ancho(Cm):"}
   new_data=information[data]
