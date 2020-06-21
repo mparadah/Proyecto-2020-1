@@ -399,8 +399,7 @@ def menu(dic_box,t):
 
         elif option == '5':
             clear_screen()
-            print_box(list_box,filter)
-            print(dic_box)
+            print_box(list_box,filter)            
             try:           
                 print_box_turtle(t,dic_box)
             except:  
