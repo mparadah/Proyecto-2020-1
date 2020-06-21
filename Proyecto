@@ -1,4 +1,5 @@
 import os
+import turtle
 
 #FUNCIONES QUE MODIFICAN LOS DATOS DEL PROGRAMA
 
@@ -198,11 +199,12 @@ def sort_list_box_mayor(list_box,filter):
                 list_box[position+1]= temp
 
 #Menu
-def menu(dic_box):
+def menu(dic_box,t):
     '''
     tiene la logica del funcionamiento del menu principal
     :param list[] list_box: lista de cajas
     '''
+    
     if len(dic_box) == 0:
         print_header()
         print("No hay cajas registradas")
@@ -397,7 +399,14 @@ def menu(dic_box):
 
         elif option == '5':
             clear_screen()
-            print_box(list_box,filter)   
+            print_box(list_box,filter)
+            print(dic_box)
+            try:           
+                print_box_turtle(t,dic_box)
+            except:  
+                wn = turtle.Screen()
+                t = turtle.Turtle()
+                print_box_turtle(t,dic_box)   
             
         elif option == 'e':
             break
@@ -559,13 +568,32 @@ def print_box(box_list,filter):
         print() 
 
 #Turtle
-	
+def print_ico(t):
+    t.speed(0)
+    for i in range(10,200,5):
+        poli(t,i,3)	
+        t.right(10)
+    
+
+def print_box_turtle(t,data):
+    t.speed(0)
+    for i in range(1,len(data)+1):
+        poli(t,i*10,4)
+        t.forward(i*10+10)
+
+def poli(t,side,n):
+    for i in range(n):
+        t.forward(side)
+        t.right(360/n)
+    
 
 #INICIO DEL PROGRAMA
 
-def main():	
+def main():
+    wn = turtle.Screen() 	   
+    t = turtle.Turtle() 
+    print_ico(t)	
     dic_box = {} 
     load_files(dic_box)
-    menu(dic_box)
-   
+    menu(dic_box,t)
 main()
