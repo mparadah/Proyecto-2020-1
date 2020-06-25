@@ -2,6 +2,119 @@ import os
 import turtle
 
 #FUNCIONES QUE MODIFICAN LOS DATOS DEL PROGRAMA
+#uSUARIOS Y CONTRASEÑAS
+def update_users(data,name_file):
+    """
+    Actualiza el archivo de datos "data.cvs" con las cajas que se registran en el programa
+    :param dictionary{} data: Diccionario con los parametros de la caja
+    :param string name_file: Nombre del archivo donde se almacena los datos
+    """
+    header = ['user','password']
+    glue = ','
+    box_line = []
+    try:
+        file = open(name_file,'w')
+        file.write(glue.join(header)+'\n')
+        for user in data:
+            user_line = []
+            user_line.append(user)
+            user_line.append(data[user])
+            line = glue.join(user_line)+'\n'
+            file.write(line)
+        file.close()
+    except:
+        print('EL ARCHIVO NO PUDO SER CREADO')
+
+def load_passwords(data,name_file):
+    try:
+        file = open(name_file,'r')
+        
+        rows = file.readlines()
+        for row in rows:
+            values = row.split(',')
+
+            data[values[0]]=values[1][:-1]
+        
+        file.close()
+    except:
+        print('EL ARCHIVO NO PUDO SER LEIDO')
+
+def login():
+    passwords = {}
+    update_users(passwords,'files/users.csv')    
+    load_passwords(passwords,'files/users.csv') 
+
+    while True: 
+        clear_screen()
+        print("####################################################################################")
+        print("                                     SORT BOX")
+        print("                               Organizador de cajas")
+        print()
+        print('1. Login')
+        print('2. Registrar nuevo usuario')
+        print()
+        option = input('Ingrese la opcion deseada: ')
+        if option == '1':
+            while True:
+                clear_screen()
+                print("####################################################################################")
+                print("                                      LOGIN")
+                print("####################################################################################")
+                user = input('Ingrese el usuario: ')
+                password = input('Ingrese la contraseña: ')
+                print()
+                if user in passwords and password == passwords[user]:
+                    print('Bienvenido '+user+' a SORT BOX')
+                    print('Oprima Enter para continuar')
+                    n = input()
+                    flag = True
+                    break
+                else:                   
+                    print('Usuario o contraseña incorrectos')
+                    print('Oprima Enter para continuar o Q para volver')
+                    n = input()
+                    flag = False
+                    if n == 'q' or n=='Q':        
+                        break  
+            if flag:
+                break
+
+        elif option == '2':
+            while True:
+                clear_screen()
+                print("####################################################################################")
+                print("                             REGISTRAR NUEVO USUARIO")
+                print("####################################################################################")
+                user = input('Ingrese el usuario: ')
+                if user in passwords:
+                    print('El usuario ya esta en uso, registre un nuevo usuario.')
+                    print('Oprima Enter para continuar.')
+                    n = input()
+                else:    
+                    print('El usuario '+user+' ha sido registrado.')
+                    print('Su contraseña es: ', str(checksum(user,999983,100000)))
+                    passwords[user]=str(checksum(user,999983,100000))
+                    update_users(passwords,'files/users.csv')
+                    print('Oprima Enter para continuar')
+                    n = input()
+                    break
+
+            else:
+                print('Opcion invalida')
+                print('Oprima Enter para continuar')
+                n = input()
+
+def peso_palabra(word, seed):
+    weight=0
+    for indice in range(len(word)):
+        weight += (ord(word[indice])*(indice+1))%seed
+    return weight  
+    
+def checksum(word,seed,limit):       
+    check_sum = peso_palabra(word,seed) * seed  
+    if check_sum > limit:
+        check_sum = check_sum % limit
+    return check_sum
 
 #Archivos
 def update_files(data,name_file):
@@ -31,9 +144,9 @@ def update_files(data,name_file):
     except:
         print('EL ARCHIVO DATA.CSV NO PUDO SER CREADO')
 
-def load_files(data):
+def load_files(data,name_file):
     try:
-        file = open('files\data.csv','r')
+        file = open(name_file,'r')
         
         rows = file.readlines()
         for row in range(1,len(rows)):
@@ -46,7 +159,7 @@ def load_files(data):
             data[values_int[0]]= values_int[1:]
         file.close()
     except:
-        print('EL ARCHIVO DATA.CSV NO PUDO SER LEIDO')    
+        print('EL ARCHIVO NO PUDO SER LEIDO')    
 
 def print_file(data,filter,type_filter):
     """
@@ -567,14 +680,126 @@ def print_box(box_list,filter):
         print() 
 
 #Turtle
-def print_ico(t):
-    t.speed(0)
-    for i in range(10,200,5):
-        poli(t,i,3)	
-        t.right(10)
+def print_ico(t,size):
+    """
+    Imprime un fractal
+    :param int size: Tamaño de la rama principal del fractal
+    """ 
+    t.speed(0) 
+    t.pensize(size/10) 
+    if size<20:
+        t.dot(10,'black')
+        return
+    t.forward(size)
+
+    #izquierda
+    t.left(90)
+    print_ico(t,size/1.62) 
+
+    #centro
+    t.right(90)
+    print_ico(t,size/1.62)  
+
+    #derecha
+    t.right(90)
+    print_ico(t,size/1.62)  
+
+    #regresar
+    t.left(90)
+    t.backward(size)
+    
+def print_logo(t):
+    """
+    Funcion que imprime el logo del programa SORT BOX
+    """
+    t.color('yellow') 
+    print_ico(t,100)
+    t.color('red')
+    t.left(90)
+    print_ico(t,100)
+    t.color('green')
+    t.left(90)
+    print_ico(t,100)
+    t.color('blue')    
+    t.left(90)
+    print_ico(t,100)
+    t.color('grey')
+    t.penup()
+    t.forward(50)
+    t.left(90)
+    t.forward(50)    
+    t.pendown()
     
 
+    t.fillcolor('black')
+    t.begin_fill()
+    t.left(90)
+    t.forward(100)
+    t.left(90)
+    t.forward(100)
+    t.left(90)
+    t.forward(100)
+    t.left(90)
+    t.forward(100)
+    t.end_fill()
+
+    t.pensize(5)
+    t.hideturtle()
+    t.color('white')
+    t.penup()
+    t.left(90)
+    t.forward(90)
+    t.left(90)
+    t.forward(60)
+    t.pendown()
+
+    #S
+    t.forward(30)
+
+    t.left(90)    
+    t.forward(30)
+
+    t.left(90)
+    t.forward(30)
+
+    t.right(90)
+    t.forward(30)
+
+    t.right(90)
+    t.forward(30)
+
+    t.penup()
+    t.right(90)
+    t.forward(10)
+    t.right(90)
+    t.forward(50)
+    t.pendown()
+
+    #B
+    t.right(90)
+    t.forward(30)
+
+    t.left(90)    
+    t.forward(30)
+
+    t.left(90)    
+    t.forward(30)
+
+    t.left(90)    
+    t.forward(30)
+
+    t.right(90)
+    t.forward(30)
+
+    t.right(90)
+    t.forward(25)
+
+    t.right(90)
+    t.forward(30)
+
 def print_box_turtle(t,data):
+    t.reset()
+    t.color('black')
     t.speed(0)
     for i in range(1,len(data)+1):
         poli(t,i*10,4)
@@ -588,11 +813,15 @@ def poli(t,side,n):
 
 #INICIO DEL PROGRAMA
 
-def main():
-    wn = turtle.Screen() 	   
-    t = turtle.Turtle() 
-    print_ico(t)	
-    dic_box = {} 
-    load_files(dic_box)
+def main():    
+    
+    login()
+    clear_screen()
+    
+    wn = turtle.Screen()
+    t = turtle.Turtle()  
+    print_logo(t)
+    dic_box = {}
+    load_files(dic_box,'files/data.csv')
     menu(dic_box,t)
 main()
