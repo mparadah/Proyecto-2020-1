@@ -5,16 +5,15 @@ import turtle
 #uSUARIOS Y CONTRASEÑAS
 def update_users(data,name_file):
     """
-    Actualiza el archivo de datos "data.cvs" con las cajas que se registran en el programa
+    Actualiza el archivo de datos "user.cvs" con las cajas que se registran en el programa
     :param dictionary{} data: Diccionario con los parametros de la caja
     :param string name_file: Nombre del archivo donde se almacena los datos
     """
-    header = ['user','password']
+    
     glue = ','
     box_line = []
     try:
         file = open(name_file,'w')
-        file.write(glue.join(header)+'\n')
         for user in data:
             user_line = []
             user_line.append(user)
@@ -40,8 +39,7 @@ def load_passwords(data,name_file):
         print('EL ARCHIVO NO PUDO SER LEIDO')
 
 def login():
-    passwords = {}
-    update_users(passwords,'files/users.csv')    
+    passwords = {'user':'password'}  
     load_passwords(passwords,'files/users.csv') 
 
     while True: 
@@ -52,6 +50,7 @@ def login():
         print()
         print('1. Login')
         print('2. Registrar nuevo usuario')
+        #print('3'. Ingresar como invitado)
         print()
         option = input('Ingrese la opcion deseada: ')
         if option == '1':
@@ -172,7 +171,7 @@ def print_file(data,filter,type_filter):
     header = "|  n. caja   |  peso kg   |  largo cm  |  ancho cm  |  alto  cm  |volumen cm^3|"    
     try:
         file = open('files\print_file.txt','w')
-        file.write("     CAJAS ORDENADOAS POR: "+filters[filter]+types[type_filter]+'\n')
+        file.write("     CAJAS ORDENADAS POR: "+filters[filter]+types[type_filter]+'\n')
         file.write("-"*len(header)+'\n')
         file.write(header+'\n')
         for i in range(len(data)):
@@ -312,12 +311,13 @@ def sort_list_box_mayor(list_box,filter):
                 list_box[position+1]= temp
 
 #Menu
-def menu(dic_box,t):
+def menu(dic_box,wn):
     '''
     tiene la logica del funcionamiento del menu principal
     :param list[] list_box: lista de cajas
     '''
-    
+    t = turtle.Turtle()
+
     if len(dic_box) == 0:
         print_header()
         print("No hay cajas registradas")
@@ -513,13 +513,15 @@ def menu(dic_box,t):
         elif option == '5':
             clear_screen()
             print_box(list_box,filter)            
-            try:           
-                print_box_turtle(t,dic_box)
-            except:  
+               
+        elif option == '6':
+            try:
+                #wn.resetscreen()                                             
+                print_box_turtle(dic_box,filter) 
+            except:
                 wn = turtle.Screen()
-                t = turtle.Turtle()
-                print_box_turtle(t,dic_box)   
-            
+                print_box_turtle(dic_box,filter)                
+
         elif option == 'e':
             break
         
@@ -535,7 +537,7 @@ def clear_screen(): #Definimos la función estableciendo el nombre que queramos
     elif os.name == "ce" or os.name == "nt" or os.name == "dos":
         os.system ("cls")
 
-#Menu
+#Print
 def print_header():
     print("####################################################################################")
     print("                                     SORT BOX")
@@ -554,7 +556,8 @@ def print_menu():
     print("2. Organizar lista de cajas")
     print("3. Modificar caja")
     print("4. Agregar cajas")
-    print("5. Imprimir las cajas graficamente ")
+    print("5. Imprimir cajas en consola")
+    print("6. Imprimir las 5 mayores y menores cajas")
     print()
     print("'e' para salir del programa")
     print()
@@ -708,10 +711,12 @@ def print_ico(t,size):
     t.left(90)
     t.backward(size)
     
-def print_logo(t):
+def print_logo():
     """
     Funcion que imprime el logo del programa SORT BOX
-    """
+    """   
+    t = turtle.Turtle() 
+    t.reset()
     t.color('yellow') 
     print_ico(t,100)
     t.color('red')
@@ -797,9 +802,17 @@ def print_logo(t):
     t.right(90)
     t.forward(30)
 
-def print_box_turtle(t,data):
-    t.reset()
-    t.color('black')
+def print_box_turtle(data,filter):    
+    t = turtle.Turtle()
+    filters = {1:'PESO'}
+    # llama un sort y se organizan por el filtro
+    # Se imprime el tipo de orden letras
+    # se imprime el estante superior
+    # se imprimen las cajas mas livianas
+    # se imprime el estante inferior
+    # se imprimen las cajas mas pesadas
+
+    t.color('green')
     t.speed(0)
     for i in range(1,len(data)+1):
         poli(t,i*10,4)
@@ -814,14 +827,12 @@ def poli(t,side,n):
 #INICIO DEL PROGRAMA
 
 def main():    
-    
-    login()
+    #login()
     clear_screen()
-    
-    wn = turtle.Screen()
-    t = turtle.Turtle()  
-    print_logo(t)
+    wn = turtle.Screen()  
+    t = turtle.Turtle()    
+    print_logo()
     dic_box = {}
     load_files(dic_box,'files/data.csv')
-    menu(dic_box,t)
+    menu(dic_box,wn)
 main()
