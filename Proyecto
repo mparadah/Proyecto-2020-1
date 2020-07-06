@@ -3,10 +3,10 @@ import turtle
 
 #FUNCIONES QUE MODIFICAN LOS DATOS DEL PROGRAMA
 #uSUARIOS Y CONTRASEÑAS
-def update_users(data,name_file):
+def update_users(data,name_file): 
     """
-    Actualiza el archivo de datos "user.cvs" con las cajas que se registran en el programa
-    :param dictionary{} data: Diccionario con los parametros de la caja
+    Actualiza el archivo de datos "user.cvs" con las usuarios que se registran en el programa
+    :param dictionary{} data: Diccionario donde se almacenan contraseñas y usuarios
     :param string name_file: Nombre del archivo donde se almacena los datos
     """
     
@@ -25,6 +25,11 @@ def update_users(data,name_file):
         print('EL ARCHIVO NO PUDO SER CREADO')
 
 def load_passwords(data,name_file):
+    """
+    Carga el archivo de datos "user.cvs" con las usuarios que se registran en el programa
+    :param dictionary{} data: Diccionario donde se almacenan contraseñas y usuarios
+    :param string name_file: Nombre del archivo donde se almacena los datos
+    """
     try:
         file = open(name_file,'r')
         
@@ -39,6 +44,9 @@ def load_passwords(data,name_file):
         print('EL ARCHIVO NO PUDO SER LEIDO')
 
 def login():
+    '''
+    Funcion encargada de imprimir el menu de incio de sesion
+    '''
     passwords = {'user':'password'}  
     load_passwords(passwords,'files/users.csv') 
 
@@ -50,7 +58,6 @@ def login():
         print()
         print('1. Login')
         print('2. Registrar nuevo usuario')
-        #print('3'. Ingresar como invitado)
         print()
         option = input('Ingrese la opcion deseada: ')
         if option == '1':
@@ -104,12 +111,24 @@ def login():
                 n = input()
 
 def peso_palabra(word, seed):
+    '''
+    Calcula el peso de una palabra de acuerdo con una semilla dada
+    :param string word: Palabra
+    :param int seed: Semilla
+    :return int weight: Peso de la palabra
+    '''
     weight=0
     for indice in range(len(word)):
         weight += (ord(word[indice])*(indice+1))%seed
     return weight  
     
-def checksum(word,seed,limit):       
+def checksum(word,seed,limit):
+    '''
+    Calcula el checksum de una palabra
+    :param string word: Palabra
+    :param int seed: Semilla
+    :param int limit: Limite    
+    '''       
     check_sum = peso_palabra(word,seed) * seed  
     if check_sum > limit:
         check_sum = check_sum % limit
@@ -144,6 +163,11 @@ def update_files(data,name_file):
         print('EL ARCHIVO DATA.CSV NO PUDO SER CREADO')
 
 def load_files(data,name_file):
+    """
+    Carga el archivo de datos "data.cvs" con las cajas que se registran en el programa
+    :param dictionary{} data: Diccionario con los parametros de la caja
+    :param string name_file: Nombre del archivo donde se almacena los datos
+    """
     try:
         file = open(name_file,'r')
         
@@ -162,13 +186,15 @@ def load_files(data,name_file):
 
 def print_file(data,filter,type_filter):
     """
-    Actualiza el archivo de datos "data.cvs" con las cajas que se registran en el programa
+    Crea el archivo de datos "print_file.txt" con las cajas que se registran en el programa
     :param dictionary{} data: Diccionario con los parametros de la caja
-    :param string name_file: Nombre del archivo donde se almacena los datos
+    :param int filter: Filtro de ordenamiento
+    :param int type_filter: ordenar de mayor o menor
     """
-    filters = {0:'NUMERO DE CAJA',1:'PESO',2:'LARGO',3:'ANCHO',4:'ALTO',5:'VOLUMEN'}
+    filters = {6:'NUMERO DE CAJA',1:'PESO',2:'LARGO',3:'ANCHO',4:'ALTO',5:'VOLUMEN'}
     types = {'1':' DE MENOR A MAYOR','2':' DE MAYOR A MENOR'}
-    header = "|  n. caja   |  peso kg   |  largo cm  |  ancho cm  |  alto  cm  |volumen cm^3|"    
+    header = "|  n. caja   |  peso kg   |  largo cm  |  ancho cm  |  alto  cm  |volumen cm^3|"  
+    
     try:
         file = open('files\print_file.txt','w')
         file.write("     CAJAS ORDENADAS POR: "+filters[filter]+types[type_filter]+'\n')
@@ -267,7 +293,7 @@ def set_box(dic_box,num_box,index,new_value):
 def box_in_list(dic_box,num_box):
     """
     valida si el numero de la caja esta dentro de la lista
-     :param diccionary{} dic_box: diccionario de cajas
+    :param diccionary{} dic_box: diccionario de cajas
     :param int num_box: Numero de caja
     :return: True|False
     """
@@ -278,6 +304,11 @@ def box_in_list(dic_box,num_box):
 
 #Ordenamiento
 def dic_to_list_box(dic_box):
+    '''
+    Convierte un diccionario de cajas en una lista de cajas
+    :param dict dic_box: Diccionario de cajas
+    :return list list_box: Lista de cajas
+    '''
     list_box = []    
     for n in range(len(dic_box)):
         box_info = [n+1]+dic_box[n+1]
@@ -289,13 +320,8 @@ def sort_list_box_less(list_box,filter):
     organiza una lista de cajas de acuerdo con un filtro de menor a mayor
     :param list[] list_box: lista de cajas
     :param int filter: filtro por el que se organiza(1=peso, 2=altura, 3=largo, 4=ancho, 5=volumen, 0=numero de caja)
-    """    
-    for step in range(1,len(list_box)): 
-        for position in range(len(list_box)-step): 
-            if list_box[position][filter] > list_box[position+1][filter]:
-                temp = list_box[position]
-                list_box[position] = list_box[position+1]
-                list_box[position+1]= temp
+    """  
+    list_box.sort(key = lambda x:x[filter])  
 
 def sort_list_box_mayor(list_box,filter): 
     """
@@ -303,18 +329,14 @@ def sort_list_box_mayor(list_box,filter):
     :param list[] list_box: lista de cajas
     :param int filter: filtro por el que se organiza(1=peso, 2=altura, 3=largo, 4=ancho, 5=volumen, 0=numero de caja)
     """  
-    for step in range(1,len(list_box)):
-        for position in range(len(list_box)-step): 
-            if list_box[position][filter] < list_box[position+1][filter]:
-                temp = list_box[position]
-                list_box[position] = list_box[position+1]
-                list_box[position+1]= temp
+    list_box.sort(key = lambda x:x[filter],reverse = True)  
 
 #Menu
 def menu(dic_box,wn):
     '''
-    tiene la logica del funcionamiento del menu principal
+    logica del funcionamiento del menu principal
     :param list[] list_box: lista de cajas
+    :param turtle.Screen() wn: Pantalla para dibujo
     '''
     t = turtle.Turtle()
 
@@ -323,7 +345,7 @@ def menu(dic_box,wn):
         print("No hay cajas registradas")
         add_box(dic_box)      
 
-    filter = 0
+    filter = 6
     type_order = '1'
     list_box = dic_to_list_box(dic_box)
 
@@ -355,11 +377,11 @@ def menu(dic_box,wn):
                         print_menu_mayor_minor()
                         type_order = input("Ingrese la opcion deseada: ")
                         if type_order == "1":
-                            sort_list_box_less(list_box,1)
+                            sort_list_box_less(list_box,int(option))
                             break
 
                         elif type_order == '2':
-                            sort_list_box_mayor(list_box,1)
+                            sort_list_box_mayor(list_box,int(option))
                             break
 
                         else: 
@@ -368,88 +390,87 @@ def menu(dic_box,wn):
 
                 elif option == '2':#ordenar por largo
                     clear_screen()
-                    while True:
+                    while True:                        
                         print_menu_mayor_minor()
-                        option = input("Ingrese la opcion deseada: ")
-                        if option == "1":
-                            sort_list_box_less(list_box,2)
+                        type_order = input("Ingrese la opcion deseada: ")
+                        if type_order == "1":
+                            sort_list_box_less(list_box,int(option))
                             break
 
-                        elif option == '2':
-                            sort_list_box_mayor(list_box,2)
+                        elif type_order == '2':
+                            sort_list_box_mayor(list_box,int(option))
                             break
 
                         else: 
-                            print("¡OPCION INVALIDA!")
+                            print("¡OPCION INVALIDA!")                  
                     break
 
                 elif option == '3':#ordenar por ancho
                     clear_screen()
-                    while True:
+                    while True:                        
                         print_menu_mayor_minor()
-                        option = input("Ingrese la opcion deseada: ")
-                        if option == "1":
-                            sort_list_box_less(list_box,3)
+                        type_order = input("Ingrese la opcion deseada: ")
+                        if type_order == "1":
+                            sort_list_box_less(list_box,int(option))
                             break
 
-                        elif option == '2':
-                            sort_list_box_mayor(list_box,3)
+                        elif type_order == '2':
+                            sort_list_box_mayor(list_box,int(option))
                             break
 
                         else: 
-                            print("¡OPCION INVALIDA!")
+                            print("¡OPCION INVALIDA!")                  
                     break
 
                 elif option == '4':#ordenar por alto
-                    clear_screen()
-                    while True:
+                    while True:                        
                         print_menu_mayor_minor()
-                        option = input("Ingrese la opcion deseada: ")
-                        if option == "1":
-                            sort_list_box_less(list_box,4)
+                        type_order = input("Ingrese la opcion deseada: ")
+                        if type_order == "1":
+                            sort_list_box_less(list_box,int(option))
                             break
 
-                        elif option == '2':
-                            sort_list_box_mayor(list_box,4)
+                        elif type_order == '2':
+                            sort_list_box_mayor(list_box,int(option))
                             break
 
                         else: 
-                            print("¡OPCION INVALIDA!")  
-                    break                   
+                            print("¡OPCION INVALIDA!")                  
+                    break                  
            
 
                 elif option == '5':#ordenar por volumen
                     clear_screen()
-                    while True:
+                    while True:                        
                         print_menu_mayor_minor()
-                        option = input("Ingrese la opcion deseada: ")
-                        if option == "1":
-                            sort_list_box_less(list_box,5)
+                        type_order = input("Ingrese la opcion deseada: ")
+                        if type_order == "1":
+                            sort_list_box_less(list_box,int(option))
                             break
 
-                        elif option == '2':
-                            sort_list_box_mayor(list_box,5)
+                        elif type_order == '2':
+                            sort_list_box_mayor(list_box,int(option))
                             break
 
                         else: 
-                            print("¡OPCION INVALIDA!")
-                    break                       
+                            print("¡OPCION INVALIDA!")                  
+                    break                      
 
                 elif option == '6': #Ordenar por numero de caja
                     clear_screen() 
-                    while True:
+                    while True:                        
                         print_menu_mayor_minor()
-                        option = input("Ingrese la opcion deseada: ")
-                        if option == "1":
+                        type_order = input("Ingrese la opcion deseada: ")
+                        if type_order == "1":
                             sort_list_box_less(list_box,0)
                             break
 
-                        elif option == '2':
+                        elif type_order == '2':
                             sort_list_box_mayor(list_box,0)
                             break
 
                         else: 
-                            print("¡OPCION INVALIDA!")
+                            print("¡OPCION INVALIDA!")                  
                     break  
      
                 else: 
@@ -516,11 +537,19 @@ def menu(dic_box,wn):
                
         elif option == '6':
             try:
-                #wn.resetscreen()                                             
+                                                             
                 print_box_turtle(dic_box,filter) 
             except:
                 wn = turtle.Screen()
-                print_box_turtle(dic_box,filter)                
+                print_box_turtle(dic_box,filter)  
+
+        elif option == '7':
+            try:
+                                                             
+                print_box_turtle(dic_box,filter) 
+            except:
+                wn = turtle.Screen()
+                print_box_turtle(dic_box,filter)
 
         elif option == 'e':
             break
@@ -531,7 +560,10 @@ def menu(dic_box,wn):
 #FUNCIONES DE LA INTERFAZ GRAFICA DE USUARIO
 
 #Limpieza pantalla
-def clear_screen(): #Definimos la función estableciendo el nombre que queramos
+def clear_screen():
+    '''
+    Limpia la consola
+    '''
     if os.name == "posix":
         os.system ("clear")
     elif os.name == "ce" or os.name == "nt" or os.name == "dos":
@@ -539,6 +571,9 @@ def clear_screen(): #Definimos la función estableciendo el nombre que queramos
 
 #Print
 def print_header():
+    '''
+    Imprime el encabezado del programa
+    '''
     print("####################################################################################")
     print("                                     SORT BOX")
     print("                               Organizador de cajas")
@@ -557,7 +592,8 @@ def print_menu():
     print("3. Modificar caja")
     print("4. Agregar cajas")
     print("5. Imprimir cajas en consola")
-    print("6. Imprimir las 5 mayores y menores cajas")
+    print("6. Imprimir las 3 mayores cajas")
+    print("7. Imprimir las 3 menores cajas")
     print()
     print("'e' para salir del programa")
     print()
@@ -645,6 +681,9 @@ def print_menu_set_parameter(number_box):
     print()
     
 def print_add_box():
+    '''
+    Imprime el encabezado de agregar cajas
+    '''
     print("####################################################################################")
     print("                                   AGREGAR CAJAS") 
     print("####################################################################################")
@@ -802,6 +841,7 @@ def print_logo():
     t.right(90)
     t.forward(30)
 
+#funciones que imprimen la caja
 def print_box_turtle(data,filter):    
     t = turtle.Turtle()
     filters = {1:'PESO'}
@@ -827,7 +867,7 @@ def poli(t,side,n):
 #INICIO DEL PROGRAMA
 
 def main():    
-    #login()
+    login()
     clear_screen()
     wn = turtle.Screen()  
     t = turtle.Turtle()    
