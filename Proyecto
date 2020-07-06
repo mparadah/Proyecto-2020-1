@@ -842,26 +842,70 @@ def print_logo():
     t.forward(30)
 
 #funciones que imprimen la caja
-def print_box_turtle(data,filter):    
-    t = turtle.Turtle()
-    filters = {1:'PESO'}
-    # llama un sort y se organizan por el filtro
-    # Se imprime el tipo de orden letras
-    # se imprime el estante superior
-    # se imprimen las cajas mas livianas
-    # se imprime el estante inferior
-    # se imprimen las cajas mas pesadas
-
-    t.color('green')
+def print_three_largest_boxes(t, list_box, filter):
+    filters = {6:'NUMERO DE CAJA',1:'PESO',2:'LARGO',3:'ANCHO',4:'ALTO',5:'VOLUMEN'}
+    argument = filters[filter]
+    t.reset()
+    screen.bgcolor("blue")
     t.speed(0)
-    for i in range(1,len(data)+1):
-        poli(t,i*10,4)
-        t.forward(i*10+10)
-
-def poli(t,side,n):
-    for i in range(n):
-        t.forward(side)
-        t.right(360/n)
+    boxes = [40, 30, 20]
+    colors = ["Light Red", "Red", "Dark Red"]
+    t.write((0,85), False)
+    t.write(("Organizado de mayor a menor por " + argument) , True, align="center"
+    t.goto(0, 0)
+    draw_shelf(t)
+    for num in range(3):
+        print_box(num, boxes, colors)
+        bench.forward((101 + (5 * num)))
+    
+def draw_shelf(t):
+    t.left(180)
+    t.forward(150)
+    t.right(180)
+    t.forward(303)
+    t.goto(-150, 0)
+    t.left(90)
+    t.forward(51)
+    t.right(90)
+    t.forward(303)
+    t.right(90)
+    t.forward(51)
+    t.right(90)
+    t.forward(101)
+    t.right(90)
+    t.forward(51)
+    t.right(180)
+    t.forward(51)
+    t.right(90)
+    t.forward(101)
+    t.right(90)
+    t.forward(51)
+    t.penup()
+    t.goto(-150, 0)
+    t.pendown()
+    t.right(90)
+    t.forward(31)
+def print_box(t, num, boxes, colors)
+    t.left(90)
+    t.penup()
+    t.forward((5*(num + 1))
+    t.pendown()
+    t.write(str(list_box[num][0]), move=False, align="center", font=("Times New Roman", 12, "normal"))
+    t.fillcolor(colors[num])
+    t.begin_fill()
+    t.forward(boxes[num])
+    t.right(90)
+    t.forward(boxes[num])
+    t.right(90)
+    t.forward(boxes[num])
+    t.right(90)
+    t.forward(boxes[num])
+    t.left(90)
+    t.end_fill()
+    t.penup()
+    t.forward((5*(num + 1))
+    t.left(90)
+    t.pendown()
     
 
 #INICIO DEL PROGRAMA
